@@ -1,0 +1,1 @@
+select * from user_groupondw.dim_day limit 5;
