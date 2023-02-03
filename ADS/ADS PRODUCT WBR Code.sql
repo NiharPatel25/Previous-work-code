@@ -1,18 +1,3 @@
-select * from sandbox.np_ads_reconciled_intermediate_report;
-
-select * from sandbox.np_sponsored_campaign;
-
-select 
-report_load_date,
-merchant_uuid, 
----count(distinct bookable_status) xyz,
-count(distinct merchant_name) xyz2
-from sandbox.pai_square_funnel
-group by 1,2
-having xyz2 > 1;
-
-select * from user_groupondw.fact_orders
-where order_id in ('1428765271', '1435141253', '1418081281', '1478330313', '1485040739', '1485040587', '1382737757', '1415518735', '1325990095', '1325990097')
 
 create volatile table np_sl_mrch_120 as
 (select 
@@ -71,125 +56,16 @@ create volatile table np_sl_mrch_spend as
 ) with data on commit preserve rows
 ;
 
-select * from sandbox.np_citrusad_campaigns where product = '481a588b-8ae0-4f95-995e-6b093251de89';
-select * from sandbox.pai_deals where deal_uuid  = '7a9445a1-3387-46c9-bdff-01b7dfa30269';
 
-select * from np_sl_mrch_spend where merchant_id = '481a588b-8ae0-4f95-995e-6b093251de89';
-select * from user_gp.ads_rcncld_intrmdt_rpt where merchant_id = '481a588b-8ae0-4f95-995e-6b093251de89';
-select * from user_groupondw.dim_deal sample 5;
-
-select * from user_edwprod.dim_offer_ext where product_uuid = '7a9445a1-3387-46c9-bdff-01b7dfa30269';
 
 --merchant id in spend: '481a588b-8ae0-4f95-995e-6b093251de89'
 --deal id in spend: 7a9445a1-3387-46c9-bdff-01b7dfa30269 I can see this in citrusad_camp
 --same deal id in pai_deals has: ce1ea913-c6fd-4a22-a178-d86f0d94ac47 merchant_uuid
 --deal for '481a588b-8ae0-4f95-995e-6b093251de89' merchantuuid is 8cc791cd-11bf-4d3e-917f-5a90525a8502
 
-sel product_uuid,
-            max(merchant_uuid) merchant_uuid,
-            min(inventory_service_name) inventory_service_name,
-            count(distinct inv_product_uuid) n_options,
-            max(created_ts) created_at
-        from user_edwprod.dim_offer_ext
-        group by 1;
-
-select * from user_edwprod.dim_offer_ext;
-
-
-select 
-   deal_uuid, 
-   count(distinct merchant_name) xyz
-from sandbox.hm_square_inventory
-group by 1
-having xyz > 1;
-
-select * from sandbox.hm_square_inventory hsi where deal_uuid = '20d3810e-89b7-4138-b437-34cac6d46512' order by report_date;
-select * from sandbox.sh_bt_active_deals_log;
 
 
 
-select * from sandbox.pai_square_funnel 
-where merchant_uuid  = '6e0af23a-f1f3-4887-9423-bc5ad4103bbd' 
-order by report_load_date;
-
-select citrusad_campaign_id, count(1) xyz from sandbox.np_citrusad_campaigns group by 1 having xyz > 1;
-
-
-select * from user_gp.ads_rcncld_intrmdt_rpt;
-select * from user_gp.ads_reconciled_report where campaign_id = '7c11171f-6210-4b02-8ad6-7db84bd706f2';
-select * from user_gp.ads_reconciled_report;
-select * from sandbox.pai_deals;
-select max(report_week) from sandbox.np_sl_cust_met;
-select max(generated_datetime) from user_gp.ads_rcncld_intrmdt_rpt;
-
-grant select on sandbox.np_sl_cust_met to public;
-grant select on sandbox.np_sl_agg_one_wbr to public;
-grant select on sandbox.np_sl_cmp_onb to public;
-grant select on sandbox.np_sl_act_camp to public;
-grant select on sandbox.np_sl_agg_one_wbr to public;
-grant select on sandbox.np_sl_ss_retention to public;
-grant select on sandbox.np_sl_ss_retention2 to public;
-grant select on sandbox.np_ss_feedback2 to public;
-grant select on sandbox.np_sl_all_traffic to public;
-
-grant select on sandbox.np_sc_deal_search_terms to public;
-grant select on sandbox.sc_ads_cost_metrics to public;
-grant select on sandbox.np_citrusad_campaigns to public;
-
-grant select on sandbox.np_sponsored_campaign to public;
-grant select on sandbox.np_sponsored_merchants to public;
-grant select on sandbox.np_merchant_topup_orders to public;
-grant select on sandbox.np_refund_request_orders to public;
-grant select on sandbox.np_citrusad_campaigns to public;
-grant select on sandbox.np_ss_performance_met to public;
-grant select on sandbox.np_merch_free_credits to public;
-grant select on sandbox.citrusad_team_wallet to public;
-grant select on sandbox.np_slad_wlt_blc_htry to public;
-grant select on sandbox.np_ss_feedback to public;
-grant select on sandbox.sc_ads_cost_metrics to public;
-grant select on sandbox.np_sl_drop_wow_merch to public;
-
-
-grant select on sandbox.np_sl_cust_met to public;
-grant select on sandbox.np_sl_cmp_onb to public;
-grant select on sandbox.np_sl_act_camp to public;
-grant select on sandbox.np_sl_agg_one_wbr to public;
-grant select on sandbox.np_sl_ss_retention to public;
-grant select on sandbox.np_sl_ss_retention2 to public;
-grant select on sandbox.np_ss_feedback2 to public;
-
-grant all privileges on sandbox.jrg_user_trxns to nihpatel with grant option;
-grant all privileges on sandbox.jrg_merchant_roi to nihpatel with grant option;
-
-grant all privileges on sandbox.np_sl_cust_met to tepler with grant option;
-grant all privileges on sandbox.np_sl_cmp_onb to tepler with grant option;
-grant all privileges on sandbox.np_sl_act_camp to tepler with grant option;
-grant all privileges on sandbox.np_sl_agg_one_wbr to tepler with grant option;
-grant all privileges on sandbox.np_sl_ss_retention to tepler with grant option;
-grant all privileges on sandbox.np_sl_ss_retention2 to tepler with grant option;
-grant all privileges on sandbox.np_ss_feedback2 to tepler with grant option;
-grant all privileges on sandbox.np_sl_all_traffic to tepler with grant option;
-grant all privileges on sandbox.np_sl_agg to tepler with grant option;
-grant all privileges on sandbox.np_sl_drop_wow_merch to tepler with grant option;
-
-grant all privileges on sandbox.np_sponsored_campaign to tepler with grant option;
-grant all privileges on sandbox.np_sponsored_merchants to tepler with grant option;
-grant all privileges on sandbox.np_merchant_topup_orders to tepler with grant option;
-grant all privileges on sandbox.np_refund_request_orders to tepler with grant option;
-grant all privileges on sandbox.np_citrusad_campaigns to tepler with grant option;
-grant all privileges on sandbox.np_ss_performance_met to tepler with grant option;
-grant all privileges on sandbox.np_merch_free_credits to tepler with grant option;
-grant all privileges on sandbox.citrusad_team_wallet to tepler with grant option;
-grant all privileges on sandbox.np_slad_wlt_blc_htry to tepler with grant option;
-grant all privileges on sandbox.np_ss_feedback to tepler with grant option;
-grant all privileges on sandbox.sc_ads_cost_metrics to tepler with grant option;
-
-grant all privileges on  sandbox.np_sl_drecommender to tepler with grant option;
-grant all privileges on sandbox.np_citrus_camp_log  to tepler with grant option;
-grant all privileges on sandbox.np_sc_deal_search_terms to tepler with grant option;
-
-
-select * from edwprod.fact_gbl_transactions;
 
 --------------------------------------------------------------------------------------------------------CUSTOMER METRICS
 
